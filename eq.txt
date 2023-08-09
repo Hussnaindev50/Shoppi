@@ -1,0 +1,10 @@
+GET http://localhost:5000/signup
+
+content-type: application/json
+
+{
+    "firstName": "Today",
+		"lastName":"User",
+    "email": "1122@gmail.com",
+		"password":"555555"
+}
