@@ -26,7 +26,7 @@ export default function Login() {
     formData.set("password", password);
     try {
       const response = await axios.post(
-        "http://localhost:3000/login",
+        "/login",
         formData,
         {
           headers: {
