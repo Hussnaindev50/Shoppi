@@ -7,7 +7,7 @@ const userRoute = require("./Routes/user_route");
 const path = require("path");
 const productRoute = require("./Routes/product_route");
 const connectDatabase = require("./DB/db");
-require("dotenv").config({ path: "./.env" });
+require("dotenv")
 connectDatabase();
 app.use(cors());
 app.use(express.json());
@@ -62,11 +62,11 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 //   }
 // });
 
-app.use(express.static(path.join(__dirname, "./client/e-shop/build")));
+app.use(express.static(path.join(__dirname, "./client/build")));
 
 app.get("*", (req, res) => {
   res.sendFile(
-    path.join(__dirname, "./client/e-shop/build/index.html"),
+    path.join(__dirname, "./client/build/index.html"),
     function (err) {
       res.status(500).send(err);
     }

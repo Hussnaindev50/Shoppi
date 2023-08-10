@@ -2,10 +2,11 @@ const AUTH_ROUTES = {
   signup: "/signup",
   login: "/login",
   forgotPassword: "/forgot-password",
-  resetPassword: "/reset-password",
+	resetPassword: "/reset-password",
+	product:"/products"
 };
 const PROTECTED_ROUTES_NAMES = {
-  root: "/signup",
+  root: "/products",
   jobs: "/jobs",
   teams: "/teams",
   blogs: "/blogs",

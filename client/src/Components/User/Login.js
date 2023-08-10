@@ -1,4 +1,7 @@
-import React from "react";import Avatar from "@mui/material/Avatar";
+import { useState } from "react"
+import { useNavigate } from "react-router-dom";
+
+import React from "react"; import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -10,18 +13,33 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-
+import axios from "axios"
 
 export default function Login() {
-  const handleSubmit = (event) => {
+	const [email, setEmail] = useState("");
+	const[password,setPassword]=useState("")
+  const navigate=useNavigate()
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const formData = new FormData();
+    formData.set("email", email);
+    formData.set("password", password);
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/login",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+			console.log("user login successfuly:", response.data);
+			navigate("/products")
+    } catch (error) {
+      console.error("login not done:", error);
+    }
   };
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -48,7 +66,9 @@ export default function Login() {
             label="Email Address"
             name="email"
             autoComplete="email"
+            value={email}
             autoFocus
+            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             margin="normal"
@@ -59,6 +79,8 @@ export default function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}

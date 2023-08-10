@@ -1,0 +1,16 @@
+.head-tool{
+	display:flex ;
+	justify-content: space-between;
+	align-items: center;
+}
+.btn-group{
+	display: inline;
+	justify-content: space-evenly;
+	border: 2px solid yellow;
+}
+.container2{
+	border: 2px solid yellow;
+	display: inline;
+	justify-content: space-evenly;
+	gap: 20px;
+}

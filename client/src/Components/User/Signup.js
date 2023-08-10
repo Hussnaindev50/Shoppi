@@ -1,4 +1,6 @@
-import * as React from "react";
+import React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,36 +13,44 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import axios from "axios"
-import "./signup.css"
-import { useState } from "react";
+import axios from "axios";
+import "./signup.css";
 import { FormGroup } from "@mui/material";
-export default function SignUp() {
-	const [file, setFile] = useState(null);
-		const handleFileChange = (event) => {
-      setFile(event.target.files[0]);
-    };
-const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log(file);
-    const formData = new FormData();
-    formData.append("file", file);
+function SignUp() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const navigate = useNavigate();
+  // const [file, setFile] = useState(null);
 
+  // const handleFileChange = (event) => {
+  //   setFile(event.target.files[0]);
+  // };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    // console.log(file);
+    const formData = new FormData();
+    // formData.append("file", file);
+    formData.append("firstName", firstName);
+    formData.append("email", email);
+    formData.append("password", password);
     try {
       const response = await axios.post(
-        "/upload",
+        "http://localhost:3000/signup",
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
         }
       );
-      console.log("Image uploaded:", response.data);
+      console.log("user register successfuly:", response.data);
+      navigate("/login");
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error("Error in registration:", error);
     }
   };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -67,6 +77,8 @@ const handleSubmit = async (event) => {
                 required
                 fullWidth
                 id="firstName"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 label="First Name"
                 autoFocus
               />
@@ -81,7 +93,7 @@ const handleSubmit = async (event) => {
                 autoComplete="family-name"
               />
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <Button
                 className="upload-btn"
                 component="label"
@@ -98,7 +110,7 @@ const handleSubmit = async (event) => {
                   multiple
                 />
               </Button>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12}>
               <TextField
                 required
@@ -106,6 +118,8 @@ const handleSubmit = async (event) => {
                 id="email"
                 label="Email Address"
                 name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
               />
             </Grid>
@@ -117,6 +131,8 @@ const handleSubmit = async (event) => {
                 label="Password"
                 type="password"
                 id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 autoComplete="new-password"
               />
             </Grid>
@@ -150,3 +166,4 @@ const handleSubmit = async (event) => {
     </Container>
   );
 }
+export default SignUp;

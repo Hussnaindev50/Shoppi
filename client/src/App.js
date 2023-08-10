@@ -5,18 +5,16 @@ import AuthRoutes from "./Routes/auth";
 // import Signup from "./Components/User/Signup";
 // import Login from "./Components/User/Login";
 import "./App.css";
+import Header from "./Components/View/header";
 function App() {
 	const user = "";
 	
   return (
 		<div className="App">
+			<Header/>
 			<h3>Welcome to E-Shop!</h3>
       <Router>
         {user ? <ProtectedRoutes /> : <AuthRoutes />}
-        {/* <Routes>
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/log11in" element={<Login />} />
-        </Routes> */}
       </Router>
     </div>
   );
