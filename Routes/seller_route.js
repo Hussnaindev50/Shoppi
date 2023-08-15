@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const isAuthenticatedUser = require("../Middlewares/auth");
-const imageUploader = require("../middlewares/cloudinary_upload");
+const imageUploader = require("../Middlewares/cloudinary_upload");
 const {
   registerSeller,
   signinSeller,
