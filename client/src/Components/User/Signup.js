@@ -33,7 +33,7 @@ function SignUp() {
 			try {
 				setLoading(true);
 				const response = await axios.post(
-          "http://localhost:3000/seller/signup",
+          "/seller/signup",
           formData,
           {
             headers: {
@@ -52,7 +52,7 @@ function SignUp() {
 		} else { 
 		try {
 			const response = await axios.post(
-        "http://localhost:3000/user/signup",
+        "/user/signup",
         formData,
         {
           headers: {

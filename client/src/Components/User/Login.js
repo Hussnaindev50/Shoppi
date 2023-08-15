@@ -30,7 +30,7 @@ export default function Login() {
 			try {
 				setLoading(true);
 				const response = await axios.post(
-					"http://localhost:3000/seller/login",
+					"/seller/login",
 					formData,
 					{
 						headers: {
@@ -49,7 +49,7 @@ export default function Login() {
 		} else {
 			try {
 				const response = await axios.post(
-					"http://localhost:3000/user/login",
+					"/user/login",
 					formData,
 					{
 						headers: {
