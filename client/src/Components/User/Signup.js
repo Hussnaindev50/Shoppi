@@ -17,26 +17,42 @@ import axios from "axios";
 import "./signup.css";
 import { FormGroup } from "@mui/material";
 function SignUp() {
-  const [email, setEmail] = useState("");
+	  const [isSeller, setIsSeller] = useState(false);
+    const [loading, setLoading] = useState(false);
+	const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const navigate = useNavigate();
-  // const [file, setFile] = useState(null);
-
-  // const handleFileChange = (event) => {
-  //   setFile(event.target.files[0]);
-  // };
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    // console.log(file);
-    const formData = new FormData();
-    // formData.append("file", file);
-    formData.append("firstName", firstName);
-    formData.append("email", email);
-    formData.append("password", password);
-    try {
-      const response = await axios.post(
-        "/signup",
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		const formData = new FormData();
+		formData.append("firstName", firstName);
+		formData.append("email", email);
+		formData.append("password", password);
+		if (isSeller === true) {
+			try {
+				setLoading(true);
+				const response = await axios.post(
+          "http://localhost:3000/seller/signup",
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+				setLoading(false);
+				console.log("Response from server:", response.data);
+				navigate("/login");
+			} catch (error) {
+				setLoading(false);
+				console.error("Error:", error.message);
+              
+			}
+		} else { 
+		try {
+			const response = await axios.post(
+        "http://localhost:3000/user/signup",
         formData,
         {
           headers: {
@@ -44,11 +60,12 @@ function SignUp() {
           },
         }
       );
-      console.log("user register successfuly:", response.data);
-      navigate("/login");
-    } catch (error) {
-      console.error("Error in registration:", error);
-    }
+			console.log("user register successfuly:", response.data);
+			navigate("/login");
+		} catch (error) {
+			console.error("Error in registration:", error);
+		}
+	}
   };
 
   return (
@@ -93,24 +110,7 @@ function SignUp() {
                 autoComplete="family-name"
               />
             </Grid>
-            {/* <Grid item xs={12}>
-              <Button
-                className="upload-btn"
-                component="label"
-                fullWidth
-                x={{ mt: 3, mb: 2 }}
-                variant="contained"
-              >
-                <span>Upload Image</span>
-                <input
-                  type="file"
-                  name="file"
-                  onChange={handleFileChange}
-                  accept="image/*"
-                  multiple
-                />
-              </Button>
-            </Grid> */}
+
             <Grid item xs={12}>
               <TextField
                 required
@@ -140,17 +140,20 @@ function SignUp() {
               <FormGroup>
                 <FormControlLabel
                   control={<Checkbox />}
-                  label="Login as Seller"
+                  label="Signup as a Seller"
+                  onChange={() => setIsSeller(!isSeller)}
                 />
               </FormGroup>
             </Grid>
           </Grid>
 
           <Button
+            className="btn"
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+						sx={{ mt: 3, mb: 2 }}
+						disabled={loading}
           >
             Sign Up
           </Button>

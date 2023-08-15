@@ -1,125 +1,90 @@
-import React from "react"; 
-// import { useState, } from "react";
-
-// import Pagination from "react-js-pagination";
-// import Slider from "@material-ui/core/Slider";
-
-// import Typography from "@material-ui/core/Typography";
-// import MetaData from "../layout/MetaData";
-
-// const categories = [
-//   "Laptop",
-//   "Footwear",
-//   "Bottom",
-//   "Tops",
-//   "Attire",
-//   "Camera",
-//   "SmartPhones",
-// ];
+import React from "react";
+import { useState } from "react";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Grid from "@mui/material/Grid";
+import axios from "axios"
 const Products = () => {
-
-//    const [currentPage, setCurrentPage] = useState(1);
-//    const [price, setPrice] = useState([0, 25000]);
-//   //  const [category, setCategory] = useState("");
-
-//    const [ratings, setRatings] = useState(0);
-
-  //  const {
-  //    products,
-  //    loading,
-  //    error,
-  //    productsCount,
-  //    resultPerPage,
-  //    filteredProductsCount,
-  //  } = useSelector((state) => state.products);
-
-  //  const keyword = match.params.keyword;
-
-  //  const setCurrentPageNo = (e) => {
-  //    setCurrentPage(e);
-  //  };
-
-  //  const priceHandler = (event, newPrice) => {
-  //    setPrice(newPrice);
-  //  };
-  //  let count = filteredProductsCount;
-
-  //  useEffect(() => {
-  //    if (error) {
-  //      alert.error(error);
-  //      dispatch(clearErrors());
-  //    }
-
-  //    dispatch(getProduct(keyword, currentPage, price, category, ratings));
-  //  }, [dispatch, keyword, currentPage, price, category, ratings, alert, error]);
+	  const [file, setFile] = useState(null);
+    const handleFileChange = (event) => {
+      setFile(event.target.files[0]);
+    };
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  console.log(file);
+  const formData = new FormData();
+  formData.append("file", file);
+  try {
+    const response = await axios.post("/products", formData, {
+      headers: {
+        "Content-Type": "application/form-data",
+      },
+    });
+    console.log("user register successfuly:", response.data);
+  } catch (error) {
+    console.error("Error in registration:", error);
+  }
+};
 	return (
-		<div>
-			<h3>Products</h3>
-      {/* {" "}
-      <Fragment>
-      
-          <Fragment>
-            <MetaData title="PRODUCTS -- ECOMMERCE" />
-            <h2 className="productsHeading">Products</h2>
+    <div>
+      <h3>Products</h3>
+      <div
+        style={{
+          textAlign: "center",
+          color: "grey",
+        }}
+      >
+        <h4>Jackets</h4>
+      </div>
 
-            <div className="filterBox">
-              <Typography>Price</Typography>
-              <Slider
-                value={price}
-                onChange={priceHandler}
-                valueLabelDisplay="auto"
-                aria-labelledby="range-slider"
-                min={0}
-                max={25000}
+      <center>
+        <Card sx={{ width: 300, height: 350 }}>
+          <CardContent>
+            <Typography
+              sx={{
+                fontSize: 24,
+                fontWeight: "bold",
+                color: "brown",
+              }}
+              color="text.secondary"
+            >
+              Brown Jacket
+            </Typography>
+            <Typography></Typography>
+          </CardContent>
+
+          <Grid item xs={12}>
+            <Button x={{ mt: 3, mb: 2 }}>
+              <span>Add Product</span>
+              <input
+                type="file"
+                name="file"
+                onChange={handleFileChange}
+                accept="image/*"
+                multiple
               />
-
-              <Typography>Categories</Typography>
-              <ul className="categoryBox">
-                {categories.map((category) => (
-                  <li
-                    className="category-link"
-                    key={category}
-                  >
-                    {category}
-                  </li>
-                ))}
-              </ul>
-
-              <fieldset>
-                <Typography component="legend">Ratings Above</Typography>
-                <Slider
-                  value={ratings}
-                  onChange={(e, newRating) => {
-                    setRatings(newRating);
-                  }}
-                  aria-labelledby="continuous-slider"
-                  valueLabelDisplay="auto"
-                  min={0}
-                  max={5}
-                />
-              </fieldset>
-            </div>
-         
-              <div className="paginationBox">
-                <Pagination
-                  activePage={currentPage}
-               
-                  onChange={setCurrentPageNo}
-                  nextPageText="Next"
-                  prevPageText="Prev"
-                  firstPageText="1st"
-                  lastPageText="Last"
-                  itemClass="page-item"
-                  linkClass="page-link"
-                  activeClass="pageItemActive"
-                  activeLinkClass="pageLinkActive"
-                />
-              </div>
-        
-          </Fragment>
-    
-	
-      </Fragment> */}
+            </Button>
+            <Button component="form" onSubmit={handleSubmit}>
+              upload
+            </Button>
+          </Grid>
+          <CardActions>
+            <Button
+              size="small"
+              sx={{
+                backgroundColor: "gray",
+                color: "white",
+                alignItems: "center",
+              }}
+            >
+              Buy Now
+            </Button>
+          </CardActions>
+        </Card>
+      </center>
     </div>
   );
 }

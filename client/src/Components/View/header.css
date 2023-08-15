@@ -2,15 +2,9 @@
 	display:flex ;
 	justify-content: space-between;
 	align-items: center;
+	background-color:rgb(34, 33, 33);
 }
-.btn-group{
-	display: inline;
-	justify-content: space-evenly;
-	border: 2px solid yellow;
-}
-.container2{
-	border: 2px solid yellow;
-	display: inline;
-	justify-content: space-evenly;
-	gap: 20px;
+.btn-con{
+	display: flex;
+justify-content: space-between;
 }

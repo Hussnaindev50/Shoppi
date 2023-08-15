@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
-
 import React from "react"; import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,33 +12,59 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { FormGroup } from "@mui/material";
 import axios from "axios"
 
 export default function Login() {
 	const [email, setEmail] = useState("");
-	const[password,setPassword]=useState("")
+	const [password, setPassword] = useState("")
+	const [isSeller, setIsSeller] = useState(false);
+	 const [loading, setLoading] = useState(false);
   const navigate=useNavigate()
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.set("email", email);
-    formData.set("password", password);
-    try {
-      const response = await axios.post(
-        "/login",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-			console.log("user login successfuly:", response.data);
-			navigate("/products")
-    } catch (error) {
-      console.error("login not done:", error);
-    }
-  };
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		const formData = new FormData();
+		formData.set("email", email);
+		formData.set("password", password);
+		if (isSeller === true) {
+			try {
+				setLoading(true);
+				const response = await axios.post(
+					"http://localhost:3000/seller/login",
+					formData,
+					{
+						headers: {
+							"Content-Type": "application/json",
+						},
+					}
+				);
+				setLoading(false);
+				console.log("Response from server:", response.data);
+				localStorage.setItem("token", response.data.token);
+				navigate("/");
+			} catch (error) {
+				setLoading(false);
+				console.error("Login Failed due to invalid credentials", error.message);         
+			}
+		} else {
+			try {
+				const response = await axios.post(
+					"http://localhost:3000/user/login",
+					formData,
+					{
+						headers: {
+							"Content-Type": "application/json",
+						},
+					}
+				);
+				console.log("user login successfuly:", response.data);
+				localStorage.setItem("token", response.data.token);
+				navigate("/");
+			} catch (error) {
+				console.error("Error in registration:", error);
+			}
+		}
+	}
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -86,11 +111,21 @@ export default function Login() {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
+          <Grid item xs={6}>
+            <FormGroup>
+              <FormControlLabel
+                control={<Checkbox />}
+                label="Login as a Seller"
+                onChange={() => setIsSeller(!isSeller)}
+              />
+            </FormGroup>
+          </Grid>
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            disabled={loading}
           >
             Sign In
           </Button>
@@ -111,4 +146,3 @@ export default function Login() {
     </Container>
   );
 }
-

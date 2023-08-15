@@ -1,21 +1,20 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import ProtectedRoutes from "./Routes/protectedRoutes";
-import AuthRoutes from "./Routes/auth";
-// import Signup from "./Components/User/Signup";
-// import Login from "./Components/User/Login";
+import AllRoutes from "./Routes/routes";
+
 import "./App.css";
 import Header from "./Components/View/header";
+import Footer from "./Components/View/footer";
 function App() {
-	const user = "";
-	
   return (
-		<div className="App">
-			<Header/>
-			<h3>Welcome to E-Shop!</h3>
+    <div className="App">
+      <Header />
+      <h3>Welcome to E-Shop!</h3>
+      {/* <Products /> */}
       <Router>
-        {user ? <ProtectedRoutes /> : <AuthRoutes />}
-      </Router>
+        <AllRoutes />
+			</Router>
+			<Footer/>
     </div>
   );
 }

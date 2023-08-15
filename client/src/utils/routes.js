@@ -1,17 +1,22 @@
-const AUTH_ROUTES = {
+const AUTH_ROUTES_NAMES = {
   signup: "/signup",
   login: "/login",
   forgotPassword: "/forgot-password",
-	resetPassword: "/reset-password",
-	product:"/products"
+  resetPassword: "/reset-password",
 };
 const PROTECTED_ROUTES_NAMES = {
-  root: "/products",
+  root: "/dashboard",
   jobs: "/jobs",
   teams: "/teams",
   blogs: "/blogs",
-  careers: "/careers",
-  projects: "/projects",
-  employees: "/employees",
 };
-export const ROUTES = { AUTH_ROUTES, PROTECTED_ROUTES_NAMES };
+const PUBLIC_ROUTES_NAMES = {
+	product: "/",
+	about: "/about",
+	contact:"/contact"
+};
+export const ROUTES = {
+  AUTH_ROUTES_NAMES,
+  PROTECTED_ROUTES_NAMES,
+  PUBLIC_ROUTES_NAMES,
+};

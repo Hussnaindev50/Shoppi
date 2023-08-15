@@ -1,29 +1,31 @@
-import React from "react"
-import "./header.css"
+import React from "react";
+import "./header.css";
 import {
   AppBar,
   Toolbar,
   Typography,
   Button,
-	Container
-
+  Box,
+  Container,
 } from "@mui/material";
 const Header = () => {
   return (
     <div>
-      <AppBar position="static">
+      <AppBar>
         <Toolbar className="head-tool">
-          <Container maxWidth="sm">
+          <Container>
             {" "}
             <Typography variant="h6">E-Shop</Typography>
           </Container>
 
-          <Container className="container2" maxWidth="sm">
-            <Button variant="contained" href="/">
+          <Box className="btn-con" width="sm">
+            <Button
+              variant="outlined"
+              aria-label="outlined button group"
+              color="inherit"
+              href="/"
+            >
               About
-            </Button>
-            <Button variant="contained" href="/about">
-              Contact
             </Button>
             <Button
               variant="outlined"
@@ -31,9 +33,18 @@ const Header = () => {
               color="inherit"
               href="/contact"
             >
+              Contact
+            </Button>
+            <Button
+              className="btn"
+              variant="outlined"
+              aria-label="outlined button group"
+              color="inherit"
+              href="/login"
+            >
               login
             </Button>
-          </Container>
+          </Box>
         </Toolbar>
       </AppBar>
     </div>
